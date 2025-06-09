@@ -7,6 +7,8 @@ import '../widgets/punch_record_list.dart';
 import '../widgets/leaves_summary.dart';
 import '../models/leave_request.dart';
 import 'leave_detail_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'punch_record_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -23,11 +25,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   final List<Map<String, String>> punchRecords = const [
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '18-09-2024'},
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '17-09-2024'},
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '16-09-2024'},
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '15-09-2024'},
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '14-09-2024'},
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '18-09-2024'
+    },
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '17-09-2024'
+    },
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '16-09-2024'
+    },
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '15-09-2024'
+    },
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '14-09-2024'
+    },
   ];
 
   final List<LeaveRequest> leaveRequests = [
@@ -95,7 +122,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       children: [
         Text(
           "👋 Hello, Faculty Demo",
-          style: theme.textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+          style:
+              theme.textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
         ),
         Text(
           getTodaysDate(),
@@ -126,26 +154,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
         const SizedBox(height: 20),
         Text(
           "🕑 Recent Punch Records",
-          style: theme.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
+          style: theme.textTheme.titleMedium!
+              .copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 10),
         PunchRecordList(punchRecords: punchRecords),
         const SizedBox(height: 20),
         Text(
           "📋 Pending Leaves Count",
-          style: theme.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
+          style: theme.textTheme.titleMedium!
+              .copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 10),
         const LeavesSummary(),
         const SizedBox(height: 30),
         Text(
           "📌 Pending Faculty Leaves",
-          style: theme.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.titleMedium!
+              .copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         ...leaveRequests.map(
           (request) => Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             elevation: 4,
             margin: const EdgeInsets.symmetric(vertical: 6),
             child: ListTile(
@@ -155,7 +187,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               title: Text(
                 request.facultyName,
-                style: theme.textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600),
+                style: theme.textTheme.bodyLarge!
+                    .copyWith(fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
                 "Type: ${request.leaveType} | Days: ${request.numberOfDays}",
@@ -185,7 +218,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Text("📚 Menu", style: theme.textTheme.titleLarge),
           const Divider(),
-          ListTile(leading: const Icon(Icons.dashboard), title: const Text("Dashboard"), onTap: () {}),
+          ListTile(
+              leading: const Icon(Icons.dashboard),
+              title: const Text("Dashboard"),
+              onTap: () {}),
           ExpansionTile(
             leading: const Icon(Icons.event_note),
             title: const Text("Leaves"),
@@ -203,9 +239,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ListTile(title: Text("Alternate Approved Leaves")),
             ],
           ),
-          const ListTile(leading: Icon(Icons.access_time), title: Text("Punch Record")),
+          ListTile(
+            leading: const Icon(Icons.access_time),
+            title: const Text("Punch Record"),
+            onTap: () {
+              Navigator.pushNamed(
+                  context, '/punch_record'); // Navigate using route path
+            },
+          ),
           const ListTile(leading: Icon(Icons.book), title: Text("Course")),
-          const ListTile(leading: Icon(Icons.checklist), title: Text("Assessment")),
+          const ListTile(
+              leading: Icon(Icons.checklist), title: Text("Assessment")),
           const ListTile(leading: Icon(Icons.school), title: Text("LMS")),
           const ListTile(leading: Icon(Icons.fact_check), title: Text("Exam")),
           const ListTile(leading: Icon(Icons.extension), title: Text("Add-on")),

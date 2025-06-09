@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import './themes/theme.dart'; // Import your custom theme
+import './themes/theme.dart';
 import 'screens/dashboard_screen.dart';
 import 'widgets/take_charge_detail.dart';
+import 'screens/punch_record_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,11 +16,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Academate',
       debugShowCheckedModeBanner: false,
-      theme: appTheme, // Use custom theme here
+      theme: appTheme,
       initialRoute: '/',
       routes: {
-        '/': (context) => const DashboardScreen(),
+        '/': (context) => DashboardScreen(),
         '/take_charge_detail': (context) => const TakeChargeDetail(),
+        '/punch_record': (context) => PunchRecordScreen(),
       },
     );
   }
