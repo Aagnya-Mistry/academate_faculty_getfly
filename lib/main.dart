@@ -1,3 +1,5 @@
+import 'package:academate_faculty/screens/your_courses.dart';
+import 'package:academate_faculty/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 import './themes/theme.dart';
 import 'screens/dashboard_screen.dart';
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => DashboardScreen(),
         '/take_charge_detail': (context) => const TakeChargeDetail(),
         '/punch_record': (context) => PunchRecordScreen(),
+        '/your_courses': (context) => YourCourses(),
       },
     );
   }

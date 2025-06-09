@@ -247,7 +247,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   context, '/punch_record'); // Navigate using route path
             },
           ),
-          const ListTile(leading: Icon(Icons.book), title: Text("Course")),
+          ExpansionTile(
+            leading: const Icon(Icons.swap_calls),
+            title: const Text("Courses"),
+            children: [
+              ListTile(
+                  title: Text("Your Courses"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/your_courses'); // Navigate using route path
+                  }),
+              ListTile(title: Text("POs")),
+              ListTile(title: Text("COPO Mapping")),
+            ],
+          ),
           const ListTile(
               leading: Icon(Icons.checklist), title: Text("Assessment")),
           const ListTile(leading: Icon(Icons.school), title: Text("LMS")),
