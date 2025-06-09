@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import './themes/theme.dart'; // Import your custom theme
 import 'screens/dashboard_screen.dart';
+import 'screens/leave_history.dart';
 import 'widgets/take_charge_detail.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
