@@ -3,13 +3,19 @@ import 'package:academate_faculty/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 import './themes/theme.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/leave_history.dart';
 import 'widgets/take_charge_detail.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/punch_record_screen.dart';
 import 'screens/your_classrooms.dart';
 import 'screens/manage_classroom_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

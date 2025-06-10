@@ -9,6 +9,9 @@ import '../models/leave_request.dart';
 import 'leave_detail_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'punch_record_screen.dart';
+import 'apply_leave.dart';
+import 'cancelled_leaves.dart';
+import 'leave_history.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -225,10 +228,42 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ExpansionTile(
             leading: const Icon(Icons.event_note),
             title: const Text("Leaves"),
-            children: const [
-              ListTile(title: Text("Apply Leave")),
-              ListTile(title: Text("Leave History")),
-              ListTile(title: Text("Cancelled Leaves")),
+            children: [
+              ListTile(
+                title: const Text("Apply Leave"),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ApplyLeaveScreen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.history),
+                title: const Text("Leave History"),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          const LeaveHistoryScreen(), // 👈 Navigate correctly
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text("Cancelled Leaves"),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PendingLeaveScreen(),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
           ExpansionTile(
