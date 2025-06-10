@@ -9,7 +9,7 @@ import '../models/leave_request.dart';
 import 'leave_detail_screen.dart';
 import 'leave_history.dart';
 import 'apply_leave.dart';
-import 'cancelled_leaves.dart';
+import 'cancelled_leaves.dart' show PendingLeaveScreen;
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -258,7 +258,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const CancelledLeaveScreen(),
+                      builder: (_) => const PendingLeaveScreen(),
                     ),
                   );
                 },
