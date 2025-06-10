@@ -5,6 +5,8 @@ import './themes/theme.dart';
 import 'screens/dashboard_screen.dart';
 import 'widgets/take_charge_detail.dart';
 import 'screens/punch_record_screen.dart';
+import 'screens/your_classrooms.dart';
+import 'screens/manage_classroom_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
         '/take_charge_detail': (context) => const TakeChargeDetail(),
         '/punch_record': (context) => PunchRecordScreen(),
         '/your_courses': (context) => YourCourses(),
+        '/your_classrooms': (context) => const ClassroomScreen(),
+        '/manage_classrooms': (context) => const ManageClassroomScreen(),
       },
     );
   }

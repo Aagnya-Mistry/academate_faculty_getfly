@@ -263,7 +263,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           const ListTile(
               leading: Icon(Icons.checklist), title: Text("Assessment")),
-          const ListTile(leading: Icon(Icons.school), title: Text("LMS")),
+          ExpansionTile(
+            leading: const Icon(Icons.swap_calls),
+            title: const Text("LMS"),
+            children: [
+              ListTile(
+                  title: Text("Classrooms"),
+                  onTap: () {
+                    Navigator.pushNamed(context,
+                        '/your_classrooms'); // Navigate using route path
+                  }),
+              ListTile(
+                title: Text("Manage Classrooms"),
+                onTap: () {
+                  Navigator.pushNamed(context,
+                      '/manage_classrooms'); // Navigate using route path
+                },
+              ),
+              ListTile(title: Text("Mark Attendance")),
+              ListTile(title: Text("Attendance History")),
+              ListTile(title: Text("My Mentees")),
+            ],
+          ),
           const ListTile(leading: Icon(Icons.fact_check), title: Text("Exam")),
           const ListTile(leading: Icon(Icons.extension), title: Text("Add-on")),
         ],
