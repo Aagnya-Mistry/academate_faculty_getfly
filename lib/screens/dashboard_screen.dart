@@ -7,9 +7,14 @@ import '../widgets/punch_record_list.dart';
 import '../widgets/leaves_summary.dart';
 import '../models/leave_request.dart';
 import 'leave_detail_screen.dart';
+<<<<<<< HEAD
 import 'leave_history.dart';
 import 'apply_leave.dart';
 import 'cancelled_leaves.dart' show PendingLeaveScreen;
+=======
+import 'package:go_router/go_router.dart';
+import 'punch_record_screen.dart';
+>>>>>>> f0bfd9e00a562d3947c26e83a09e2816b0975224
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -220,10 +225,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Text("📚 Menu", style: theme.textTheme.titleLarge),
           const Divider(),
           ListTile(
+<<<<<<< HEAD
             leading: const Icon(Icons.dashboard),
             title: const Text("Dashboard"),
             onTap: () {},
           ),
+=======
+              leading: const Icon(Icons.dashboard),
+              title: const Text("Dashboard"),
+              onTap: () {}),
+>>>>>>> f0bfd9e00a562d3947c26e83a09e2816b0975224
           ExpansionTile(
             leading: const Icon(Icons.event_note),
             title: const Text("Leaves"),
@@ -273,9 +284,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ListTile(title: Text("Alternate Approved Leaves")),
             ],
           ),
+<<<<<<< HEAD
           const ListTile(
               leading: Icon(Icons.access_time), title: Text("Punch Record")),
           const ListTile(leading: Icon(Icons.book), title: Text("Course")),
+=======
+          ListTile(
+            leading: const Icon(Icons.access_time),
+            title: const Text("Punch Record"),
+            onTap: () {
+              Navigator.pushNamed(
+                  context, '/punch_record'); // Navigate using route path
+            },
+          ),
+          ExpansionTile(
+            leading: const Icon(Icons.swap_calls),
+            title: const Text("Courses"),
+            children: [
+              ListTile(
+                  title: Text("Your Courses"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/your_courses'); // Navigate using route path
+                  }),
+              ListTile(title: Text("POs")),
+              ListTile(title: Text("COPO Mapping")),
+            ],
+          ),
+>>>>>>> f0bfd9e00a562d3947c26e83a09e2816b0975224
           const ListTile(
               leading: Icon(Icons.checklist), title: Text("Assessment")),
           const ListTile(leading: Icon(Icons.school), title: Text("LMS")),
