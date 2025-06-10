@@ -299,7 +299,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const ListTile(
               leading: Icon(Icons.checklist), title: Text("Assessment")),
           ExpansionTile(
-            leading: const Icon(Icons.swap_calls),
             title: const Text("LMS"),
             children: [
               ListTile(
@@ -321,7 +320,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
           const ListTile(leading: Icon(Icons.fact_check), title: Text("Exam")),
-          const ListTile(leading: Icon(Icons.extension), title: Text("Add-on")),
+          ExpansionTile(
+            title: const Text("Add-ons"),
+            children: [
+              ListTile(
+                  title: Text("Download Payslip"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/payslip'); // Navigate using route path
+                  }),
+              ListTile(
+                title: Text("Manage Classrooms"),
+              ),
+            ],
+          ),
         ],
       ),
     );

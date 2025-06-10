@@ -71,8 +71,8 @@ class _ClassroomWidgetState extends State<ClassroomWidget> {
     final colorScheme = theme.colorScheme;
     
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(8),

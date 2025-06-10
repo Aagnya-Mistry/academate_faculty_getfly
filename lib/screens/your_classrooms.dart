@@ -33,29 +33,29 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   void initState() {
     super.initState();
     _searchController.addListener(_filterClassrooms);
-    
+
     // Initialize with sample data
     _classrooms = [
       Classroom(
         id: '1',
         name: 'Mathematics 101',
-        description: 'Basic mathematics course for beginners',
+        description: 'Semester 5',
         createdAt: DateTime.now().subtract(Duration(days: 5)),
       ),
       Classroom(
         id: '2',
         name: 'Physics Advanced',
-        description: 'Advanced physics concepts and applications',
+        description: 'Semester 1',
         createdAt: DateTime.now().subtract(Duration(days: 10)),
       ),
       Classroom(
         id: '3',
         name: 'Chemistry Fundamentals',
-        description: 'Introduction to basic chemistry principles',
+        description: 'Semester 2',
         createdAt: DateTime.now().subtract(Duration(days: 15)),
       ),
     ];
-    
+
     _filteredClassrooms = List.from(_classrooms);
   }
 
@@ -83,7 +83,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date).inDays;
-    
+
     if (difference == 0) {
       return 'today';
     } else if (difference == 1) {
@@ -97,10 +97,10 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
 
   Widget _buildClassroomCard(Classroom classroom) {
     final theme = Theme.of(context);
-    
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(8),
@@ -188,7 +188,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: CustomAppBar(
@@ -202,7 +202,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
           children: [
             // Classrooms header with count and search
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: theme.cardColor,
                 borderRadius: BorderRadius.circular(12),
@@ -220,7 +220,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: theme.scaffoldBackgroundColor,
                           borderRadius: BorderRadius.circular(8),
@@ -244,8 +244,10 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: 'Search classrooms...',
-                      hintStyle: TextStyle(color: theme.textTheme.bodyMedium?.color),
-                      prefixIcon: Icon(Icons.search, color: theme.textTheme.bodyMedium?.color),
+                      hintStyle:
+                          TextStyle(color: theme.textTheme.bodySmall?.color),
+                      prefixIcon: Icon(Icons.search,
+                          color: theme.textTheme.bodyMedium?.color),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 12,
@@ -267,6 +269,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
                       },
                     ),
             ),
+            SizedBox(height: 60),
           ],
         ),
       ),
@@ -285,7 +288,7 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
 
   Widget _buildEmptyState() {
     final theme = Theme.of(context);
-    
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(40),

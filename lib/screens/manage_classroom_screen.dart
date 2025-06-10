@@ -1,3 +1,4 @@
+import 'package:academate_faculty/widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -61,7 +62,7 @@ class ManageClassroomCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: theme.cardColor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: theme.dividerColor.withOpacity(0.3)),
+              border: Border.all(color: theme.dividerColor),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.05),
@@ -206,17 +207,14 @@ class ManageClassroomScreen extends StatefulWidget {
 }
 
 class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
-  final TextEditingController _searchController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   
   List<Classroom> _classrooms = [];
-  List<Classroom> _filteredClassrooms = [];
 
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(_filterClassrooms);
     
     // Initialize with sample data
     _classrooms = [
@@ -239,31 +237,13 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
         createdAt: DateTime.now().subtract(const Duration(days: 15)),
       ),
     ];
-    
-    _filteredClassrooms = List.from(_classrooms);
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
     _nameController.dispose();
     _descriptionController.dispose();
     super.dispose();
-  }
-
-  void _filterClassrooms() {
-    setState(() {
-      if (_searchController.text.isEmpty) {
-        _filteredClassrooms = _classrooms;
-      } else {
-        String searchTerm = _searchController.text.toLowerCase();
-        _filteredClassrooms = _classrooms
-            .where((classroom) =>
-                classroom.name.toLowerCase().contains(searchTerm) ||
-                classroom.description.toLowerCase().contains(searchTerm))
-            .toList();
-      }
-    });
   }
 
   void _addClassroom() {
@@ -428,7 +408,6 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
                               
                               setState(() {
                                 _classrooms.add(newClassroom);
-                                _filterClassrooms();
                               });
                               
                               _nameController.clear();
@@ -496,7 +475,6 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
             onPressed: () {
               setState(() {
                 _classrooms.removeWhere((c) => c.id == classroom.id);
-                _filterClassrooms();
               });
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
@@ -556,37 +534,33 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
           ),
           const SizedBox(height: 24),
           Text(
-            _searchController.text.isEmpty ? 'No Classrooms Yet' : 'No Results Found',
+            'No Classrooms Yet',
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 12),
           Text(
-            _searchController.text.isEmpty
-                ? 'Create your first classroom to get started'
-                : 'No classrooms match your search criteria',
+            'Create your first classroom to get started',
             style: theme.textTheme.bodyLarge?.copyWith(
               color: theme.textTheme.bodyLarge?.color?.withOpacity(0.7),
             ),
             textAlign: TextAlign.center,
           ),
-          if (_searchController.text.isEmpty) ...[
-            const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: _addClassroom,
-              icon: const Icon(Icons.add),
-              label: const Text('Create Classroom'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: theme.primaryColor,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: _addClassroom,
+            icon: const Icon(Icons.add),
+            label: const Text('Create Classroom'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: theme.primaryColor,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
-          ],
+          ),
         ],
       ),
     );
@@ -598,24 +572,13 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
     
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: const Text('Manage Classrooms'),
-        backgroundColor: theme.scaffoldBackgroundColor,
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: _addClassroom,
-            icon: const Icon(Icons.add_circle_outline),
-            tooltip: 'Add Classroom',
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(title: "Manage Classrooms", subtitle: "View and manage your virtual classrooms and student enrollments"),
       body: Column(
         children: [
-          // Header section with search
+          // Header section
           Container(
             margin: const EdgeInsets.all(16),
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: theme.cardColor,
               borderRadius: BorderRadius.circular(16),
@@ -627,76 +590,57 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
                 ),
               ],
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                Row(
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: theme.primaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.dashboard_outlined,
+                    size: 24,
+                    color: theme.primaryColor,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: theme.primaryColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(
-                        Icons.dashboard_outlined,
-                        size: 24,
-                        color: theme.primaryColor,
+                    Text(
+                      'Your Classrooms',
+                      style: theme.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Your Classrooms',
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '${_classrooms.length} total classrooms',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      '${_classrooms.length} total classrooms',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+                      ),
                     ),
                   ],
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search classrooms...',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    fillColor: theme.scaffoldBackgroundColor,
-                  ),
                 ),
               ],
             ),
           ),
           // Classrooms list
           Expanded(
-            child: _filteredClassrooms.isEmpty
+            child: _classrooms.isEmpty
                 ? _buildEmptyState()
                 : ListView.builder(
                     padding: const EdgeInsets.only(bottom: 80),
-                    itemCount: _filteredClassrooms.length,
+                    itemCount: _classrooms.length,
                     itemBuilder: (context, index) {
                       return ManageClassroomCard(
-                        classroom: _filteredClassrooms[index],
-                        onDelete: () => _deleteClassroom(_filteredClassrooms[index]),
+                        classroom: _classrooms[index],
+                        onDelete: () => _deleteClassroom(_classrooms[index]),
                         onTap: () {
                           // Handle classroom tap - navigate to classroom details
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Opening ${_filteredClassrooms[index].name}'),
+                              content: Text('Opening ${_classrooms[index].name}'),
                             ),
                           );
                         },

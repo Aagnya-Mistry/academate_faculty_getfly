@@ -1,3 +1,4 @@
+import 'package:academate_faculty/screens/payslip_screen.dart';
 import 'package:academate_faculty/screens/your_courses.dart';
 import 'package:academate_faculty/widgets/course_card.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/your_courses': (context) => YourCourses(),
         '/your_classrooms': (context) => const ClassroomScreen(),
         '/manage_classrooms': (context) => const ManageClassroomScreen(),
+        '/payslip': (context) => SalarySlipScreen(),
       },
     );
   }
