@@ -33,7 +33,7 @@ class ManageClassroomCard extends StatelessWidget {
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date).inDays;
-    
+
     if (difference == 0) {
       return 'today';
     } else if (difference == 1) {
@@ -49,7 +49,7 @@ class ManageClassroomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Material(
@@ -105,7 +105,8 @@ class ManageClassroomCard extends StatelessWidget {
                             Text(
                               classroom.description,
                               style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.textTheme.bodyMedium?.color?.withOpacity(0.8),
+                                color: theme.textTheme.bodyMedium?.color
+                                    ?.withOpacity(0.8),
                               ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -126,9 +127,11 @@ class ManageClassroomCard extends StatelessWidget {
                             value: 'delete',
                             child: Row(
                               children: [
-                                Icon(Icons.delete_outline, size: 18, color: colorScheme.error),
+                                Icon(Icons.delete_outline,
+                                    size: 18, color: colorScheme.error),
                                 const SizedBox(width: 8),
-                                Text('Delete', style: TextStyle(color: colorScheme.error)),
+                                Text('Delete',
+                                    style: TextStyle(color: colorScheme.error)),
                               ],
                             ),
                           ),
@@ -152,7 +155,8 @@ class ManageClassroomCard extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.green.shade50,
                         borderRadius: BorderRadius.circular(20),
@@ -184,7 +188,8 @@ class ManageClassroomCard extends StatelessWidget {
                     Text(
                       'Created ${_formatDate(classroom.createdAt)}',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.textTheme.bodySmall?.color?.withOpacity(0.7),
+                        color:
+                            theme.textTheme.bodySmall?.color?.withOpacity(0.7),
                       ),
                     ),
                   ],
@@ -209,13 +214,13 @@ class ManageClassroomScreen extends StatefulWidget {
 class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  
+
   List<Classroom> _classrooms = [];
 
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize with sample data
     _classrooms = [
       Classroom(
@@ -257,7 +262,7 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
 
   Widget _buildAddClassroomBottomSheet() {
     final theme = Theme.of(context);
-    
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.75,
       decoration: BoxDecoration(
@@ -317,7 +322,8 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
                     Text(
                       'Create a new classroom for your students',
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+                        color:
+                            theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                       ),
                     ),
                   ],
@@ -347,7 +353,8 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: theme.primaryColor, width: 2),
+                        borderSide:
+                            BorderSide(color: theme.primaryColor, width: 2),
                       ),
                     ),
                   ),
@@ -370,7 +377,8 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: theme.primaryColor, width: 2),
+                        borderSide:
+                            BorderSide(color: theme.primaryColor, width: 2),
                       ),
                     ),
                   ),
@@ -400,23 +408,26 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
                           onPressed: () {
                             if (_nameController.text.isNotEmpty) {
                               final newClassroom = Classroom(
-                                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                                id: DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString(),
                                 name: _nameController.text,
                                 description: _descriptionController.text,
                                 createdAt: DateTime.now(),
                               );
-                              
+
                               setState(() {
                                 _classrooms.add(newClassroom);
                               });
-                              
+
                               _nameController.clear();
                               _descriptionController.clear();
                               Navigator.pop(context);
-                              
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Classroom "${newClassroom.name}" created!'),
+                                  content: Text(
+                                      'Classroom "${newClassroom.name}" created!'),
                                   backgroundColor: Colors.green,
                                 ),
                               );
@@ -447,14 +458,15 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
   void _deleteClassroom(Classroom classroom) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Row(
           children: [
-            Icon(Icons.warning_amber_rounded, color: colorScheme.error, size: 28),
+            Icon(Icons.warning_amber_rounded,
+                color: colorScheme.error, size: 28),
             const SizedBox(width: 12),
             Text('Delete Classroom', style: theme.textTheme.titleLarge),
           ],
@@ -500,7 +512,7 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
 
   Widget _buildEmptyState() {
     final theme = Theme.of(context);
-    
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(40),
@@ -569,10 +581,13 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: CustomAppBar(title: "Manage Classrooms", subtitle: "View and manage your virtual classrooms and student enrollments"),
+      appBar: CustomAppBar(
+          title: "Manage Classrooms",
+          subtitle:
+              "View and manage your virtual classrooms and student enrollments"),
       body: Column(
         children: [
           // Header section
@@ -617,7 +632,8 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
                     Text(
                       '${_classrooms.length} total classrooms',
                       style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+                        color:
+                            theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                       ),
                     ),
                   ],
@@ -640,7 +656,8 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
                           // Handle classroom tap - navigate to classroom details
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Opening ${_classrooms[index].name}'),
+                              content:
+                                  Text('Opening ${_classrooms[index].name}'),
                             ),
                           );
                         },
