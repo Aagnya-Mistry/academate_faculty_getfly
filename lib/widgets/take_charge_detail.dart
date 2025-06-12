@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../themes/theme.dart'; // Make sure your theme.dart defines proper color schemes
 
 class TakeChargeDetail extends StatelessWidget {
   const TakeChargeDetail({super.key});
@@ -7,6 +8,7 @@ class TakeChargeDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     final String facultyName =
         ModalRoute.of(context)?.settings.arguments as String? ??
             "Faculty Name Not Found";
@@ -22,35 +24,55 @@ class TakeChargeDetail extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Leave Details", style: theme.appBarTheme.titleTextStyle),
+        title: Text(
+          "Leave Details",
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: theme.colorScheme.onPrimary,
+          ),
+        ),
+        backgroundColor: theme.colorScheme.primary,
+        elevation: 4,
+        shadowColor: theme.colorScheme.shadow,
+        iconTheme: IconThemeData(color: theme.colorScheme.onPrimary),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Container(
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF6A5AE0), Color(0xFF8E79F5)],
+            gradient: LinearGradient(
+              colors: [
+                theme.colorScheme.primary.withOpacity(0.9),
+                theme.colorScheme.secondary.withOpacity(0.8),
+              ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: const [BoxShadow(blurRadius: 8, color: Colors.black26)],
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.shadow.withOpacity(0.2),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildDetailRow("Faculty Name", facultyName),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               for (var entry in leaveDetails.entries)
                 _buildDetailRow(entry.key, entry.value),
               const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.green.shade600,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -60,14 +82,16 @@ class TakeChargeDetail extends StatelessWidget {
                     ),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Approved Successfully')),
+                        const SnackBar(
+                            content: Text('✅ Approved Successfully')),
                       );
                     },
-                    child: const Text("Approve"),
+                    icon: const Icon(Icons.check_circle_outline),
+                    label: const Text("Approve"),
                   ),
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
+                      backgroundColor: Colors.red.shade600,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -77,10 +101,12 @@ class TakeChargeDetail extends StatelessWidget {
                     ),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Charge Denied')),
+                        const SnackBar(
+                            content: Text('❌ Charge Denied')),
                       );
                     },
-                    child: const Text("Deny"),
+                    icon: const Icon(Icons.cancel_outlined),
+                    label: const Text("Deny"),
                   ),
                 ],
               )
@@ -95,6 +121,7 @@ class TakeChargeDetail extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             flex: 3,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../themes/theme.dart'; // Adjust based on your folder structure
 
 class InOutTimeCard extends StatelessWidget {
   const InOutTimeCard({super.key});
@@ -13,23 +14,23 @@ class InOutTimeCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      elevation: 6,
-      shadowColor: theme.colorScheme.primary.withOpacity(0.3),
-      color: theme.colorScheme.surface,
+      elevation: 8,
+      shadowColor: AppColors.primary.withOpacity(0.15),
+      color: AppColors.surface,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 32.0),
+        padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 24.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: const [
             _InOutColumn(
-              icon: FontAwesomeIcons.signInAlt,
-              label: 'IN Time',
+              icon: FontAwesomeIcons.rightToBracket,
+              label: 'IN TIME',
               time: '-----',
               gradientColors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)],
             ),
             _InOutColumn(
-              icon: FontAwesomeIcons.signOutAlt,
-              label: 'OUT Time',
+              icon: FontAwesomeIcons.rightFromBracket,
+              label: 'OUT TIME',
               time: '-----',
               gradientColors: [Color(0xFF00C9FF), Color(0xFF92FE9D)],
             ),
@@ -55,13 +56,12 @@ class _InOutColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       children: [
+        // Gradient Icon Circle
         Container(
-          width: 56,
-          height: 56,
+          width: 60,
+          height: 60,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: LinearGradient(
@@ -69,27 +69,39 @@ class _InOutColumn extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: gradientColors.last.withOpacity(0.4),
+                blurRadius: 6,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           child: Center(
-            child: Icon(icon, color: Colors.white, size: 20),
+            child: Icon(icon, color: Colors.white, size: 22),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 12),
+
+        // Label
         Text(
           label,
-          style: GoogleFonts.inter(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: theme.colorScheme.onSurface.withOpacity(0.7),
+          style: GoogleFonts.poppins(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textSecondary,
+            letterSpacing: 0.6,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 6),
+
+        // Time Text
         Text(
           time,
           style: GoogleFonts.poppins(
-            fontSize: 16,
+            fontSize: 17,
             fontWeight: FontWeight.bold,
-            color: theme.colorScheme.onSurface,
+            color: AppColors.textPrimary,
             letterSpacing: 0.5,
           ),
         ),
