@@ -1,10 +1,22 @@
+import 'package:academate_faculty/screens/payslip_screen.dart';
+import 'package:academate_faculty/screens/your_courses.dart';
+import 'package:academate_faculty/widgets/course_card.dart';
 import 'package:flutter/material.dart';
-import './themes/theme.dart'; // Import your custom theme
+import './themes/theme.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/leave_history.dart';
 import 'widgets/take_charge_detail.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'screens/punch_record_screen.dart';
+import 'screens/your_classrooms.dart';
+import 'screens/manage_classroom_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,11 +27,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Academate',
       debugShowCheckedModeBanner: false,
-      theme: appTheme, // Use custom theme here
+      theme: appTheme,
       initialRoute: '/',
       routes: {
-        '/': (context) => const DashboardScreen(),
+        '/': (context) => DashboardScreen(),
         '/take_charge_detail': (context) => const TakeChargeDetail(),
+        '/punch_record': (context) => PunchRecordScreen(),
+        '/your_courses': (context) => YourCourses(),
+        '/your_classrooms': (context) => const ClassroomScreen(),
+        '/manage_classrooms': (context) => const ManageClassroomScreen(),
+        '/payslip': (context) => SalarySlipScreen(),
       },
     );
   }

@@ -3,10 +3,16 @@ import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widgets/custom_date_picker.dart';
 import '../widgets/punch_record_list.dart';
+<<<<<<< HEAD
 
 class PunchRecordScreen extends StatefulWidget {
   const PunchRecordScreen({super.key});
 
+=======
+import '../themes/theme.dart';
+
+class PunchRecordScreen extends StatefulWidget {
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
   @override
   _PunchRecordScreenState createState() => _PunchRecordScreenState();
 }
@@ -300,4 +306,8 @@ class _PunchRecordScreenState extends State<PunchRecordScreen> {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f

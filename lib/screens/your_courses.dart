@@ -3,7 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/course_card.dart';
 
 class YourCourses extends StatefulWidget {
+<<<<<<< HEAD
   const YourCourses({super.key});
+=======
+  const YourCourses({Key? key}) : super(key: key);
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
 
   @override
   State<YourCourses> createState() => _YourCoursesState();
@@ -49,11 +53,19 @@ class _YourCoursesState extends State<YourCourses> {
   ];
 
   void _addCourseDialog() {
+<<<<<<< HEAD
     final nameController = TextEditingController();
     final semesterController = TextEditingController();
     final yearController = TextEditingController();
     final branchController = TextEditingController();
     final coCountController = TextEditingController();
+=======
+    final _nameController = TextEditingController();
+    final _semesterController = TextEditingController();
+    final _yearController = TextEditingController();
+    final _branchController = TextEditingController();
+    final _coCountController = TextEditingController();
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
 
     showDialog(
       context: context,
@@ -63,28 +75,48 @@ class _YourCoursesState extends State<YourCourses> {
           child: Column(
             children: [
               TextField(
+<<<<<<< HEAD
                 controller: nameController,
+=======
+                controller: _nameController,
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
                 decoration: InputDecoration(labelText: 'Course Name'),
               ),
               SizedBox(height: 8),
               TextField(
+<<<<<<< HEAD
                 controller: semesterController,
+=======
+                controller: _semesterController,
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
                 decoration: InputDecoration(labelText: 'Semester'),
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 8),
               TextField(
+<<<<<<< HEAD
                 controller: yearController,
+=======
+                controller: _yearController,
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
                 decoration: InputDecoration(labelText: 'Academic Year'),
               ),
               SizedBox(height: 8),
               TextField(
+<<<<<<< HEAD
                 controller: branchController,
+=======
+                controller: _branchController,
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
                 decoration: InputDecoration(labelText: 'Branch'),
               ),
               SizedBox(height: 8),
               TextField(
+<<<<<<< HEAD
                 controller: coCountController,
+=======
+                controller: _coCountController,
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
                 decoration: InputDecoration(labelText: 'CO Count'),
                 keyboardType: TextInputType.number,
               ),
@@ -99,6 +131,7 @@ class _YourCoursesState extends State<YourCourses> {
           ElevatedButton(
             child: Text("Add"),
             onPressed: () {
+<<<<<<< HEAD
               if (nameController.text.isNotEmpty &&
                   semesterController.text.isNotEmpty &&
                   yearController.text.isNotEmpty &&
@@ -111,6 +144,20 @@ class _YourCoursesState extends State<YourCourses> {
                     'year': yearController.text,
                     'branch': branchController.text,
                     'coCount': int.tryParse(coCountController.text) ?? 0,
+=======
+              if (_nameController.text.isNotEmpty &&
+                  _semesterController.text.isNotEmpty &&
+                  _yearController.text.isNotEmpty &&
+                  _branchController.text.isNotEmpty &&
+                  _coCountController.text.isNotEmpty) {
+                setState(() {
+                  _courses.add({
+                    'name': _nameController.text,
+                    'semester': _semesterController.text,
+                    'year': _yearController.text,
+                    'branch': _branchController.text,
+                    'coCount': int.tryParse(_coCountController.text) ?? 0,
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
                   });
                 });
                 Navigator.pop(context);
@@ -190,4 +237,8 @@ class _YourCoursesState extends State<YourCourses> {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f

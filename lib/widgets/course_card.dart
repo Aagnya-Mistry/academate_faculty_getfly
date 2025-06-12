@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../themes/theme.dart'; // adjust import based on your project structure
+=======
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
 
 class CourseCard extends StatelessWidget {
   final String courseName;
@@ -21,6 +24,7 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+<<<<<<< HEAD
       elevation: 6,
       shadowColor: AppColors.primary.withOpacity(0.2),
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -77,11 +81,39 @@ class CourseCard extends StatelessWidget {
                 ),
               ],
             ),
+=======
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(courseName,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 16,
+              runSpacing: 4,
+              children: [
+                Text("Semester: $semester"),
+                Text("Year: $academicYear"),
+                Text("Branch: $branch"),
+                Text("CO Count: $coCount"),
+              ],
+            ),
+            const SizedBox(height: 12),
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
           ],
         ),
       ),
     );
   }
+<<<<<<< HEAD
 
   Widget _buildDetailItem({
     required IconData icon,
@@ -109,4 +141,6 @@ class CourseCard extends StatelessWidget {
       ],
     );
   }
+=======
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
 }

@@ -85,7 +85,6 @@ final ThemeData appTheme = ThemeData(
       ),
     ),
   ),
-  
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: Colors.white,
@@ -99,4 +98,57 @@ final ThemeData appTheme = ThemeData(
     ),
     labelStyle: GoogleFonts.inter(color: const Color(0xFF5C5C5C)),
   ),
+<<<<<<< HEAD
 );
+=======
+);
+
+class AppTheme {
+  static const Color primaryColor = Color(0xFF4A4A8B);
+  static const Color surfaceColor = Color(0xFFF5F5F5);
+
+  static ThemeData get lightTheme {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primaryColor,
+        brightness: Brightness.light,
+        surface: surfaceColor,
+      ),
+      textTheme: GoogleFonts.interTextTheme(),
+      appBarTheme: AppBarTheme(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        titleTextStyle: GoogleFonts.poppins(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.white,
+          textStyle: GoogleFonts.inter(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AppColors {
+  static const primary = Color(0xFF2A1070);
+  static const accent = Color(0xFF5A4FCF);
+  static const secondary = Color(0xFF5F6A7D);
+  static const success = Color(0xFF2E7D32);
+  static const error = Color(0xFFD32F2F);
+  static const warning = Color(0xFFFFA000);
+  static const info = Color(0xFF7986CB);
+  static const background = Color(0xFFF4F6F8);
+  static const surface = Color(0xFFFFFFFF);
+  static const textPrimary = Color(0xFF1C1C1E);
+  static const textSecondary = Color(0xFF5C5C5C);
+}
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f

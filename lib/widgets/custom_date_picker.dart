@@ -8,13 +8,21 @@ class CustomDatePicker extends StatefulWidget {
   final String? labelText;
 
   const CustomDatePicker({
+<<<<<<< HEAD
     super.key,
+=======
+    Key? key,
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
     this.initialDate,
     this.firstDate,
     this.lastDate,
     this.onDateChanged,
     this.labelText,
+<<<<<<< HEAD
   });
+=======
+  }) : super(key: key);
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
@@ -71,4 +79,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       ),
     );
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f

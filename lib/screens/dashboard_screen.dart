@@ -9,9 +9,12 @@ import '../widgets/punch_record_list.dart';
 import '../widgets/leaves_summary.dart';
 import '../models/leave_request.dart';
 import 'leave_detail_screen.dart';
+<<<<<<< HEAD
 import '../widgets/app_header.dart';
 import '../widgets/side_drawer.dart';
 import '../themes/theme.dart'; // Import your theme
+=======
+
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -35,11 +38,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   final List<Map<String, String>> punchRecords = const [
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '18-09-2024'},
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '17-09-2024'},
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '16-09-2024'},
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '15-09-2024'},
-    {'name': 'Faculty Demo', 'punchIn': '-----', 'punchOut': '-----', 'date': '14-09-2024'},
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '18-09-2024'
+    },
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '17-09-2024'
+    },
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '16-09-2024'
+    },
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '15-09-2024'
+    },
+    {
+      'name': 'Faculty Demo',
+      'punchIn': '-----',
+      'punchOut': '-----',
+      'date': '14-09-2024'
+    },
   ];
 
   final List<LeaveRequest> leaveRequests = [
@@ -81,6 +109,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+<<<<<<< HEAD
         // Welcome Header
         _buildWelcomeHeader(),
         
@@ -89,6 +118,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
         // In/Out Time Card
         _buildEnhancedInOutCard(),
         
+=======
+        Text(
+          "👋 Hello, Faculty Demo",
+          style:
+              theme.textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+        ),
+        Text(
+          getTodaysDate(),
+          style: theme.textTheme.bodyMedium!.copyWith(color: Colors.grey),
+        ),
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
         const SizedBox(height: 20),
         
         // Stats Cards Row
@@ -144,6 +184,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
+<<<<<<< HEAD
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -166,6 +207,57 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Colors.white.withOpacity(0.9),
+=======
+        const SizedBox(height: 20),
+        Text(
+          "🕑 Recent Punch Records",
+          style: theme.textTheme.titleMedium!
+              .copyWith(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 10),
+        PunchRecordList(punchRecords: punchRecords),
+        const SizedBox(height: 20),
+        Text(
+          "📋 Pending Leaves Count",
+          style: theme.textTheme.titleMedium!
+              .copyWith(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 10),
+        const LeavesSummary(),
+        const SizedBox(height: 30),
+        Text(
+          "📌 Pending Faculty Leaves",
+          style: theme.textTheme.titleMedium!
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        ...leaveRequests.map(
+          (request) => Card(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            elevation: 4,
+            margin: const EdgeInsets.symmetric(vertical: 6),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: theme.colorScheme.primary,
+                child: const Icon(Icons.person, color: Colors.white),
+              ),
+              title: Text(
+                request.facultyName,
+                style: theme.textTheme.bodyLarge!
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text(
+                "Type: ${request.leaveType} | Days: ${request.numberOfDays}",
+                style: theme.textTheme.bodyMedium,
+              ),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => LeaveDetailScreen(request: request),
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -294,6 +386,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+<<<<<<< HEAD
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -305,6 +398,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
               size: 16,
               color: color,
             ),
+=======
+          Text("📚 Menu", style: theme.textTheme.titleLarge),
+          const Divider(),
+          ListTile(
+              leading: const Icon(Icons.dashboard),
+              title: const Text("Dashboard"),
+              onTap: () {}),
+          ExpansionTile(
+            leading: const Icon(Icons.event_note),
+            title: const Text("Leaves"),
+            children: [
+              ListTile(
+                title: const Text("Apply Leave"),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ApplyLeaveScreen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.history),
+                title: const Text("Leave History"),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          const LeaveHistoryScreen(), // 👈 Navigate correctly
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text("Cancelled Leaves"),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PendingLeaveScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
           ),
           const SizedBox(height: 12),
           Text(
@@ -324,6 +465,69 @@ class _DashboardScreenState extends State<DashboardScreen> {
               color: AppColors.textPrimary,
             ),
           ),
+<<<<<<< HEAD
+=======
+          ListTile(
+            leading: const Icon(Icons.access_time),
+            title: const Text("Punch Record"),
+            onTap: () {
+              Navigator.pushNamed(
+                  context, '/punch_record'); // Navigate using route path
+            },
+          ),
+          ExpansionTile(
+            leading: const Icon(Icons.swap_calls),
+            title: const Text("Courses"),
+            children: [
+              ListTile(
+                  title: Text("Your Courses"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/your_courses'); // Navigate using route path
+                  }),
+              ListTile(title: Text("POs")),
+              ListTile(title: Text("COPO Mapping")),
+            ],
+          ),
+          const ListTile(
+              leading: Icon(Icons.checklist), title: Text("Assessment")),
+          ExpansionTile(
+            title: const Text("LMS"),
+            children: [
+              ListTile(
+                  title: Text("Classrooms"),
+                  onTap: () {
+                    Navigator.pushNamed(context,
+                        '/your_classrooms'); // Navigate using route path
+                  }),
+              ListTile(
+                title: Text("Manage Classrooms"),
+                onTap: () {
+                  Navigator.pushNamed(context,
+                      '/manage_classrooms'); // Navigate using route path
+                },
+              ),
+              ListTile(title: Text("Mark Attendance")),
+              ListTile(title: Text("Attendance History")),
+              ListTile(title: Text("My Mentees")),
+            ],
+          ),
+          const ListTile(leading: Icon(Icons.fact_check), title: Text("Exam")),
+          ExpansionTile(
+            title: const Text("Add-ons"),
+            children: [
+              ListTile(
+                  title: Text("Download Payslip"),
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, '/payslip'); // Navigate using route path
+                  }),
+              ListTile(
+                title: Text("Manage Classrooms"),
+              ),
+            ],
+          ),
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
         ],
       ),
     );

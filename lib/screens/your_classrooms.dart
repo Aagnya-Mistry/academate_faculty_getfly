@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import '../widgets/custom_appBar.dart';
+=======
+import 'package:academate_faculty/widgets/custom_appBar.dart';
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -18,7 +22,11 @@ class Classroom {
 }
 
 class ClassroomScreen extends StatefulWidget {
+<<<<<<< HEAD
   const ClassroomScreen({super.key});
+=======
+  const ClassroomScreen({Key? key}) : super(key: key);
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
 
   @override
   State<ClassroomScreen> createState() => _ClassroomScreenState();
@@ -353,4 +361,8 @@ class _ClassroomScreenState extends State<ClassroomScreen> {
       }
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f

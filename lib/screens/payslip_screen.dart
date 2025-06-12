@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import '../widgets/custom_appBar.dart';
+=======
+import 'package:academate_faculty/widgets/custom_appBar.dart';
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pdf/widgets.dart' as pw;
