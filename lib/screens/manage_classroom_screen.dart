@@ -8,12 +8,18 @@ class Classroom {
   final String name;
   final String description;
   final DateTime createdAt;
+  final int studentCount;
+  final String subject;
+  final Color accentColor;
 
   Classroom({
     required this.id,
     required this.name,
     required this.description,
     required this.createdAt,
+    this.studentCount = 0,
+    this.subject = 'General',
+    this.accentColor = const Color(0xFF5A4FCF),
   });
 }
 
@@ -33,11 +39,8 @@ class ManageClassroomCard extends StatelessWidget {
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date).inDays;
-
     if (difference == 0) {
       return 'today';
-    } else if (difference == 1) {
-      return 'yesterday';
     } else if (difference < 7) {
       return '$difference days ago';
     } else {
@@ -50,23 +53,39 @@ class ManageClassroomCard extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: theme.cardColor,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: theme.dividerColor),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white,
+                  Colors.white,
+                  classroom.accentColor.withOpacity(0.02),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: classroom.accentColor.withOpacity(0.1),
+                width: 1,
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 8,
+                  color: classroom.accentColor.withOpacity(0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.04),
+                  blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
               ],
@@ -74,13 +93,13 @@ class ManageClassroomCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Header row
                 Row(
                   children: [
                     Container(
-                      width: 48,
-                      height: 48,
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: theme.primaryColor,
+                        color: classroom.accentColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Icon(
@@ -152,6 +171,7 @@ class ManageClassroomCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
+                // Status and metadata row
                 Row(
                   children: [
                     Container(
@@ -186,7 +206,7 @@ class ManageClassroomCard extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Created ${_formatDate(classroom.createdAt)}',
+                      '${classroom.studentCount} students • ${_formatDate(classroom.createdAt)}',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color:
                             theme.textTheme.bodySmall?.color?.withOpacity(0.7),
@@ -211,43 +231,92 @@ class ManageClassroomScreen extends StatefulWidget {
   State<ManageClassroomScreen> createState() => _ManageClassroomScreenState();
 }
 
-class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
+class _ManageClassroomScreenState extends State<ManageClassroomScreen>
+    with TickerProviderStateMixin {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  
   List<Classroom> _classrooms = [];
+
+  final List<Color> _accentColors = [
+    const Color(0xFF5A4FCF),
+    const Color(0xFF10B981),
+    const Color(0xFF3B82F6),
+    const Color(0xFFF59E0B),
+    const Color(0xFFEF4444),
+    const Color(0xFF8B5CF6),
+  ];
+
+  final List<String> _subjects = [
+    'Mathematics',
+    'Physics',
+    'Chemistry',
+    'Biology',
+    'Computer Science',
+    'English',
+    'History',
+    'Geography',
+    'General',
+  ];
 
   @override
   void initState() {
     super.initState();
-
+    
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+    
     // Initialize with sample data
     _classrooms = [
       Classroom(
         id: '1',
-        name: 'Mathematics 101',
-        description: 'Basic mathematics course for beginners',
+        name: 'Advanced Mathematics',
+        description: 'Explore calculus, linear algebra, and advanced mathematical concepts',
         createdAt: DateTime.now().subtract(const Duration(days: 5)),
+        studentCount: 24,
+        subject: 'Mathematics',
+        accentColor: _accentColors[0],
       ),
       Classroom(
         id: '2',
-        name: 'Physics Advanced',
-        description: 'Advanced physics concepts and applications',
+        name: 'Quantum Physics',
+        description: 'Understanding the fundamental principles of quantum mechanics',
         createdAt: DateTime.now().subtract(const Duration(days: 10)),
+        studentCount: 18,
+        subject: 'Physics',
+        accentColor: _accentColors[2],
       ),
       Classroom(
         id: '3',
-        name: 'Chemistry Fundamentals',
-        description: 'Introduction to basic chemistry principles',
+        name: 'Organic Chemistry',
+        description: 'Study of carbon compounds and their fascinating reactions',
         createdAt: DateTime.now().subtract(const Duration(days: 15)),
+        studentCount: 31,
+        subject: 'Chemistry',
+        accentColor: _accentColors[1],
       ),
     ];
+    
+    _animationController.forward();
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _descriptionController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -262,194 +331,216 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
 
   Widget _buildAddClassroomBottomSheet() {
     final theme = Theme.of(context);
-
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.75,
-      decoration: BoxDecoration(
-        color: theme.scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
+    String selectedSubject = _subjects[0];
+    
+    return StatefulBuilder(
+      builder: (context, setModalState) => Container(
+        decoration: BoxDecoration(
+          color: theme.scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 24,
-          right: 24,
-          top: 24,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Handle bar
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: theme.dividerColor,
-                  borderRadius: BorderRadius.circular(2),
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            top: 24,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Handle bar
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: theme.dividerColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 24),
-            // Header
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: theme.primaryColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    Icons.add_circle_outline,
-                    color: theme.primaryColor,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Add New Classroom',
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'Create a new classroom for your students',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color:
-                            theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 32),
-            // Form
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              const SizedBox(height: 24),
+              // Header
+              Row(
                 children: [
-                  Text(
-                    'Classroom Name',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: theme.primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.add_circle_outline,
+                      color: theme.primaryColor,
+                      size: 24,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter classroom name',
-                      prefixIcon: const Icon(Icons.class_outlined),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: theme.primaryColor, width: 2),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Description',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _descriptionController,
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      hintText: 'Enter classroom description',
-                      prefixIcon: const Icon(Icons.description_outlined),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: theme.primaryColor, width: 2),
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  // Buttons
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () {
-                            _nameController.clear();
-                            _descriptionController.clear();
-                            Navigator.pop(context);
-                          },
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Add New Classroom',
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
                           ),
-                          child: const Text('Cancel'),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_nameController.text.isNotEmpty) {
-                              final newClassroom = Classroom(
-                                id: DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString(),
-                                name: _nameController.text,
-                                description: _descriptionController.text,
-                                createdAt: DateTime.now(),
-                              );
-
-                              setState(() {
-                                _classrooms.add(newClassroom);
-                              });
-
-                              _nameController.clear();
-                              _descriptionController.clear();
-                              Navigator.pop(context);
-
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'Classroom "${newClassroom.name}" created!'),
-                                  backgroundColor: Colors.green,
-                                ),
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.primaryColor,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                        Text(
+                          'Create a new classroom for your students',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
                           ),
-                          child: const Text('Create Classroom'),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+              const SizedBox(height: 32),
+              // Form fields
+              Text(
+                'Classroom Name',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  hintText: 'Enter classroom name',
+                  prefixIcon: Icon(
+                    Icons.auto_stories_rounded,
+                    color: theme.primaryColor,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                'Subject',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                value: selectedSubject,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.subject_rounded,
+                    color: theme.primaryColor,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+                items: _subjects.map((subject) {
+                  return DropdownMenuItem(
+                    value: subject,
+                    child: Text(subject),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setModalState(() {
+                    selectedSubject = value!;
+                  });
+                },
+              ),
+              const SizedBox(height: 24),
+              Text(
+                'Description',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _descriptionController,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: 'Enter classroom description',
+                  prefixIcon: Icon(
+                    Icons.description_outlined,
+                    color: theme.primaryColor,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 32),
+              // Action buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        _nameController.clear();
+                        _descriptionController.clear();
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_nameController.text.isNotEmpty) {
+                          final newClassroom = Classroom(
+                            id: DateTime.now().millisecondsSinceEpoch.toString(),
+                            name: _nameController.text,
+                            description: _descriptionController.text,
+                            createdAt: DateTime.now(),
+                            subject: selectedSubject,
+                            accentColor: _accentColors[_classrooms.length % _accentColors.length],
+                          );
+                          
+                          setState(() {
+                            _classrooms.add(newClassroom);
+                          });
+                          
+                          _nameController.clear();
+                          _descriptionController.clear();
+                          Navigator.pop(context);
+                          
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Classroom "${newClassroom.name}" created!'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: theme.primaryColor,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text('Create Classroom'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -512,52 +603,30 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
 
   Widget _buildEmptyState() {
     final theme = Theme.of(context);
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(40),
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: theme.primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(40),
-            ),
-            child: Icon(
-              Icons.class_outlined,
-              size: 40,
-              color: theme.primaryColor,
-            ),
+          Icon(
+            Icons.school_outlined,
+            size: 80,
+            color: theme.primaryColor.withOpacity(0.3),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
           Text(
             'No Classrooms Yet',
-            style: theme.textTheme.titleLarge?.copyWith(
+            style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
+              color: theme.textTheme.headlineSmall?.color?.withOpacity(0.7),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Text(
             'Create your first classroom to get started',
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.textTheme.bodyLarge?.color?.withOpacity(0.7),
+              color: theme.textTheme.bodyLarge?.color?.withOpacity(0.5),
             ),
-            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(
@@ -584,10 +653,10 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: CustomAppBar(
-          title: "Manage Classrooms",
-          subtitle:
-              "View and manage your virtual classrooms and student enrollments"),
+      appBar: const CustomAppBar(
+        title: "Manage Classrooms",
+        subtitle: "View and manage your virtual classrooms and student enrollments",
+      ),
       body: Column(
         children: [
           // Header section
@@ -619,24 +688,25 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
                     color: theme.primaryColor,
                   ),
                 ),
-                const SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Your Classrooms',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Your Classrooms',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${_classrooms.length} total classrooms',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color:
-                            theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+                      Text(
+                        '${_classrooms.length} total classrooms',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.textTheme.bodyMedium?.color?.withOpacity(0.7),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -645,34 +715,76 @@ class _ManageClassroomScreenState extends State<ManageClassroomScreen> {
           Expanded(
             child: _classrooms.isEmpty
                 ? _buildEmptyState()
-                : ListView.builder(
-                    padding: const EdgeInsets.only(bottom: 80),
-                    itemCount: _classrooms.length,
-                    itemBuilder: (context, index) {
-                      return ManageClassroomCard(
-                        classroom: _classrooms[index],
-                        onDelete: () => _deleteClassroom(_classrooms[index]),
-                        onTap: () {
-                          // Handle classroom tap - navigate to classroom details
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content:
-                                  Text('Opening ${_classrooms[index].name}'),
-                            ),
-                          );
-                        },
-                      );
-                    },
+                : FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 100),
+                      itemCount: _classrooms.length,
+                      itemBuilder: (context, index) {
+                        return AnimatedContainer(
+                          duration: Duration(milliseconds: 300 + (index * 100)),
+                          curve: Curves.easeOutCubic,
+                          child: ManageClassroomCard(
+                            classroom: _classrooms[index],
+                            onDelete: () => _deleteClassroom(_classrooms[index]),
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.open_in_new_rounded,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text('Opening ${_classrooms[index].name}...'),
+                                    ],
+                                  ),
+                                  backgroundColor: theme.primaryColor,
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
                   ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addClassroom,
-        backgroundColor: theme.primaryColor,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.add),
-        label: const Text('Add Classroom'),
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              theme.primaryColor,
+              theme.primaryColor.withOpacity(0.8),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: theme.primaryColor.withOpacity(0.3),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: FloatingActionButton.extended(
+          onPressed: _addClassroom,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          icon: const Icon(Icons.add, color: Colors.white),
+          label: const Text(
+            'Add Classroom',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
       ),
     );
   }

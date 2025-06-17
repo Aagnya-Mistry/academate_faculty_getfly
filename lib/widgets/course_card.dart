@@ -19,11 +19,11 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+<<<<<<< HEAD
+      elevation: 6,
+      shadowColor: AppColors.primary.withOpacity(0.2),
+      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,7 +46,6 @@ class CourseCard extends StatelessWidget {
             const SizedBox(height: 12),
           ],
         ),
-      ),
-    );
+      );
   }
 }

@@ -49,15 +49,15 @@ class _YourCoursesState extends State<YourCourses> {
   ];
 
   void _addCourseDialog() {
-    final _nameController = TextEditingController();
-    final _semesterController = TextEditingController();
-    final _yearController = TextEditingController();
-    final _branchController = TextEditingController();
+<<<<<<< HEAD
+    final nameController = TextEditingController();
+    final semesterController = TextEditingController();
+    final yearController = TextEditingController();
     final _coCountController = TextEditingController();
+>>>>>>> 14f562e52275babf1d12d68d9a2691a20dc2090f
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
         title: Text("Add New Course", style: GoogleFonts.poppins()),
         content: SingleChildScrollView(
           child: Column(
@@ -68,25 +68,21 @@ class _YourCoursesState extends State<YourCourses> {
               ),
               SizedBox(height: 8),
               TextField(
-                controller: _semesterController,
-                decoration: InputDecoration(labelText: 'Semester'),
+                controller: semesterController,
                 keyboardType: TextInputType.number,
-              ),
+              )
               SizedBox(height: 8),
               TextField(
                 controller: _yearController,
                 decoration: InputDecoration(labelText: 'Academic Year'),
-              ),
-              SizedBox(height: 8),
-              TextField(
+
                 controller: _branchController,
                 decoration: InputDecoration(labelText: 'Branch'),
               ),
               SizedBox(height: 8),
               TextField(
-                controller: _coCountController,
+                controller: coCountController,
                 decoration: InputDecoration(labelText: 'CO Count'),
-                keyboardType: TextInputType.number,
               ),
             ],
           ),
@@ -99,6 +95,18 @@ class _YourCoursesState extends State<YourCourses> {
           ElevatedButton(
             child: Text("Add"),
             onPressed: () {
+              if (nameController.text.isNotEmpty &&
+                  semesterController.text.isNotEmpty &&
+                  yearController.text.isNotEmpty &&
+                  branchController.text.isNotEmpty &&
+                  coCountController.text.isNotEmpty) {
+                setState(() {
+                  _courses.add({
+                    'name': nameController.text,
+                    'semester': semesterController.text,
+                    'year': yearController.text,
+                    'branch': branchController.text,
+                    'coCount': int.tryParse(coCountController.text) ?? 0,
               if (_nameController.text.isNotEmpty &&
                   _semesterController.text.isNotEmpty &&
                   _yearController.text.isNotEmpty &&
@@ -117,9 +125,14 @@ class _YourCoursesState extends State<YourCourses> {
               }
             },
           ),
+                }
+                )
+                  }
+            }
+          )
         ],
       ),
-    );
+
   }
 
   @override
@@ -191,3 +204,4 @@ class _YourCoursesState extends State<YourCourses> {
     );
   }
 }
+

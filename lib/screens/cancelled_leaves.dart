@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'apply_leave.dart';
+import '../screens/apply_leave_screen.dart';
 
 // Models
 class LeaveData {
@@ -41,53 +40,22 @@ class AppColors {
   static const textSecondary = Color(0xFF5C5C5C);
 }
 
-// State Provider
-final leaveDataProvider =
-    StateNotifierProvider<LeaveNotifier, AsyncValue<LeaveData>>(
-        (ref) => LeaveNotifier());
-
-class LeaveNotifier extends StateNotifier<AsyncValue<LeaveData>> {
-  LeaveNotifier() : super(const AsyncValue.loading()) {
-    loadLeaveData();
-  }
-
-  Future<void> loadLeaveData() async {
-    try {
-      await Future.delayed(const Duration(seconds: 2));
-      state = AsyncValue.data(LeaveData(
-        facultyName: 'Dr. Sarah Johnson',
-        casualLeave: 12,
-        medicalLeave: 15,
-        earnedLeave: 30,
-        compensationLeave: 5,
-        summerVacation: 60,
-        winterVacation: 15,
-        specialLeave: 2,
-        usedEarnedLeaves: 8,
-        remark: 'Regular annual allocation',
-      ));
-    } catch (e, stack) {
-      state = AsyncValue.error(e, stack);
-    }
-  }
-
-  Future<void> refreshData() async {
-    state = const AsyncValue.loading();
-    await loadLeaveData();
-  }
-}
-
-class PendingLeaveScreen extends ConsumerStatefulWidget {
+class PendingLeaveScreen extends StatefulWidget {
   const PendingLeaveScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<PendingLeaveScreen> createState() => _PendingLeaveScreenState();
+  State<PendingLeaveScreen> createState() => _PendingLeaveScreenState();
 }
 
-class _PendingLeaveScreenState extends ConsumerState<PendingLeaveScreen>
+class _PendingLeaveScreenState extends State<PendingLeaveScreen>
     with TickerProviderStateMixin {
   late AnimationController _heroController, _cardController;
   late Animation<double> _heroAnimation, _cardAnimation;
+  
+  // State management
+  bool _isLoading = true;
+  bool _hasError = false;
+  LeaveData? _leaveData;
 
   @override
   void initState() {
@@ -104,6 +72,8 @@ class _PendingLeaveScreenState extends ConsumerState<PendingLeaveScreen>
     _heroController.forward();
     Future.delayed(
         const Duration(milliseconds: 300), () => _cardController.forward());
+    
+    _loadLeaveData();
   }
 
   @override
@@ -113,10 +83,45 @@ class _PendingLeaveScreenState extends ConsumerState<PendingLeaveScreen>
     super.dispose();
   }
 
+  Future<void> _loadLeaveData() async {
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
+    });
+
+    try {
+      // Simulate API call
+      await Future.delayed(const Duration(seconds: 2));
+      
+      setState(() {
+        _leaveData = LeaveData(
+          facultyName: 'Dr. Sarah Johnson',
+          casualLeave: 12,
+          medicalLeave: 15,
+          earnedLeave: 30,
+          compensationLeave: 5,
+          summerVacation: 60,
+          winterVacation: 15,
+          specialLeave: 2,
+          usedEarnedLeaves: 8,
+          remark: 'Regular annual allocation',
+        );
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _hasError = true;
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _refreshData() async {
+    await _loadLeaveData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final leaveDataAsync = ref.watch(leaveDataProvider);
-
     return Scaffold(
       backgroundColor: AppColors.background,
       body: CustomScrollView(
@@ -144,8 +149,7 @@ class _PendingLeaveScreenState extends ConsumerState<PendingLeaveScreen>
             ),
             actions: [
               IconButton(
-                onPressed: () =>
-                    ref.read(leaveDataProvider.notifier).refreshData(),
+                onPressed: _refreshData,
                 icon: const Icon(Icons.refresh_rounded, color: Colors.white),
               ),
             ],
@@ -188,11 +192,7 @@ class _PendingLeaveScreenState extends ConsumerState<PendingLeaveScreen>
                   opacity: _cardAnimation.value,
                   child: Padding(
                     padding: const EdgeInsets.all(16),
-                    child: leaveDataAsync.when(
-                      data: (leaveData) => _buildLeaveContent(leaveData),
-                      loading: () => _buildShimmerLoading(),
-                      error: (error, stack) => _buildErrorState(),
-                    ),
+                    child: _buildContent(),
                   ),
                 ),
               ),
@@ -215,6 +215,18 @@ class _PendingLeaveScreenState extends ConsumerState<PendingLeaveScreen>
                 fontWeight: FontWeight.w600, color: Colors.white)),
       ),
     );
+  }
+
+  Widget _buildContent() {
+    if (_isLoading) {
+      return _buildShimmerLoading();
+    } else if (_hasError) {
+      return _buildErrorState();
+    } else if (_leaveData != null) {
+      return _buildLeaveContent(_leaveData!);
+    } else {
+      return _buildErrorState();
+    }
   }
 
   Widget _buildLeaveContent(LeaveData leaveData) {
@@ -662,7 +674,7 @@ class _PendingLeaveScreenState extends ConsumerState<PendingLeaveScreen>
                   color: AppColors.textSecondary)),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () => ref.read(leaveDataProvider.notifier).refreshData(),
+            onPressed: _refreshData,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
@@ -703,3 +715,5 @@ class PatternPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+=======
+
